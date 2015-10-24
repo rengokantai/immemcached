@@ -5,6 +5,8 @@ class Mem
     private $m;
     private $time;
     private $error;
+    
+    private $debug;
     public function __construct()
     {
         if (!class_exists($this->type)) {
@@ -44,16 +46,24 @@ class Mem
             $time = $this->time;
         }
         $this->m->set($key, $value, $time);
-        if($this->m->getResultCode()!=0){
-            return false;
+        
+        if($this->debug){
+            if($this->m->getResultCode()!=0){
+                return false;
+            }   
         }
+
     }
     
     
     public function get($key){
         $return = $this->m->get($key);
-        if($this->m->getResultCode()!=0){
-            return false;
+        if($this->debug){
+            if($this->m->getResultCode()!=0){
+                return false;
+            }else{
+                return $return;
+            }
         }else{
             return $return;
         }
