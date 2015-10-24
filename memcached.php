@@ -26,7 +26,7 @@ class Mem
     {
         $number = func_num_args();
         if ($number == 1) {
-            $this->get(key);
+            return $this->get(key);
         } else if ($number >= 2) {
             if ($value === NULL) {
                 $this->delete($key);
@@ -43,7 +43,25 @@ class Mem
         if ($time === NULL) {
             $time = $this->time;
         }
-        $this->m->set($key, $value);
+        $this->m->set($key, $value, $time);
+        if($this->m->getResultCode()!=0){
+            return false;
+        }
+    }
+    
+    
+    public function get($key){
+        $return = $this->m->get($key);
+        if($this->m->getResultCode()!=0){
+            return false;
+        }else{
+            return $return;
+        }
+    }
+    
+    
+    public function delete($key){
+        $this->m->delete($key);
     }
     public function getError()
     {
